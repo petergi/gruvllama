@@ -15,7 +15,7 @@ local Gruvllama = {}
 ---@class HighlightDefinition
 ---@field fg string?
 ---@field bg string?
----@field sp string?
+---@field sp string?  
 ---@field blend integer?
 ---@field bold boolean?
 ---@field standout boolean?
@@ -1138,7 +1138,7 @@ end
 
 ---@param config GruvllamaConfig?
 Gruvllama.setup = function(config)
-    Gruvllama.config = vim.tbl_deep_extend("force", gruvllama.config,
+    Gruvllama.config = vim.tbl_deep_extend("force", Gruvllama.config,
                                            config or {})
 end
 
