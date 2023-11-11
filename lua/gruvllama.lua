@@ -15,7 +15,7 @@ local Gruvllama = {}
 ---@class HighlightDefinition
 ---@field fg string?
 ---@field bg string?
----@field sp string?  
+---@field sp string?
 ---@field blend integer?
 ---@field bold boolean?
 ---@field standout boolean?
@@ -29,7 +29,7 @@ local Gruvllama = {}
 ---@field nocombine boolean?
 
 ---@class GruvllamaConfig
----@field terminal_colors boolean?
+---@field terminal_colours boolean?
 ---@field undercurl boolean?
 ---@field underline boolean?
 ---@field bold boolean?
@@ -68,7 +68,7 @@ Gruvllama.config = {
     transparent_mode = false
 }
 
--- main gruvllama color palette
+-- main gruvllama colour palette
 ---@class GruvllamaPalette
 Gruvllama.palette = {
     dark0_hard = "#1d2021",
@@ -127,17 +127,17 @@ Gruvllama.palette = {
     gray = "#928374"
 }
 
--- get a hex list of gruvllama colors based on current bg and constrast config
-local function get_colors()
+-- get a hex list of gruvllama colours based on current bg and constrast config
+local function get_colours()
     local p = Gruvllama.palette
     local config = Gruvllama.config
 
-    for color, hex in pairs(config.palette_overrides) do p[color] = hex end
+    for colour, hex in pairs(config.palette_overrides) do p[colour] = hex end
 
     local bg = vim.o.background
     local contrast = config.contrast
 
-    local color_groups = {
+    local colour_groups = {
         dark = {
             bg0 = p.dark0,
             bg1 = p.dark1,
@@ -199,195 +199,220 @@ local function get_colors()
     }
 
     if contrast ~= nil and contrast ~= "" then
-        color_groups[bg].bg0 = p[bg .. "0_" .. contrast]
-        color_groups[bg].dark_red = p[bg .. "_red_" .. contrast]
-        color_groups[bg].dark_green = p[bg .. "_green_" .. contrast]
-        color_groups[bg].dark_aqua = p[bg .. "_aqua_" .. contrast]
+        colour_groups[bg].bg0 = p[bg .. "0_" .. contrast]
+        colour_groups[bg].dark_red = p[bg .. "_red_" .. contrast]
+        colour_groups[bg].dark_green = p[bg .. "_green_" .. contrast]
+        colour_groups[bg].dark_aqua = p[bg .. "_aqua_" .. contrast]
     end
 
-    return color_groups[bg]
+    return colour_groups[bg]
 end
 
 local function get_groups()
-    local colors = get_colors()
+    local colours = get_colours()
     local config = Gruvllama.config
 
     if config.terminal_colors then
-        local term_colors = {
-            colors.bg0, colors.neutral_red, colors.neutral_green,
-            colors.neutral_yellow, colors.neutral_blue, colors.neutral_purple,
-            colors.neutral_aqua, colors.fg4, colors.gray, colors.red,
-            colors.green, colors.yellow, colors.blue, colors.purple,
-            colors.aqua, colors.fg1
+        local term_colours = {
+            colours.bg0, colours.neutral_red, colours.neutral_green,
+            colours.neutral_yellow, colours.neutral_blue,
+            colours.neutral_purple, colours.neutral_aqua, colours.fg4,
+            colours.gray, colours.red, colours.green, colours.yellow,
+            colours.blue, colours.purple, colours.aqua, colours.fg1
         }
-        for index, value in ipairs(term_colors) do
+        for index, value in ipairs(term_colours) do
             vim.g["terminal_color_" .. index - 1] = value
         end
     end
 
     local groups = {
-        GruvllamaFg0 = {fg = colors.fg0},
-        GruvllamaFg1 = {fg = colors.fg1},
-        GruvllamaFg2 = {fg = colors.fg2},
-        GruvllamaFg3 = {fg = colors.fg3},
-        GruvllamaFg4 = {fg = colors.fg4},
-        GruvllamaGray = {fg = colors.gray},
-        GruvllamaBg0 = {fg = colors.bg0},
-        GruvllamaBg1 = {fg = colors.bg1},
-        GruvllamaBg2 = {fg = colors.bg2},
-        GruvllamaBg3 = {fg = colors.bg3},
-        GruvllamaBg4 = {fg = colors.bg4},
-        GruvllamaRed = {fg = colors.red},
-        GruvllamaRedBold = {fg = colors.red, bold = config.bold},
-        GruvllamaGreen = {fg = colors.green},
-        GruvllamaGreenBold = {fg = colors.green, bold = config.bold},
-        GruvllamaYellow = {fg = colors.yellow},
-        GruvllamaYellowBold = {fg = colors.yellow, bold = config.bold},
-        GruvllamaBlue = {fg = colors.blue},
-        GruvllamaBlueBold = {fg = colors.blue, bold = config.bold},
-        GruvllamaPurple = {fg = colors.purple},
-        GruvllamaPurpleBold = {fg = colors.purple, bold = config.bold},
-        GruvllamaAqua = {fg = colors.aqua},
-        GruvllamaAquaBold = {fg = colors.aqua, bold = config.bold},
-        GruvllamaOrange = {fg = colors.orange},
-        GruvllamaOrangeBold = {fg = colors.orange, bold = config.bold},
+        GruvllamaFg0 = {fg = colours.fg0},
+        GruvllamaFg1 = {fg = colours.fg1},
+        GruvllamaFg2 = {fg = colours.fg2},
+        GruvllamaFg3 = {fg = colours.fg3},
+        GruvllamaFg4 = {fg = colours.fg4},
+        GruvllamaGray = {fg = colours.gray},
+        GruvllamaBg0 = {fg = colours.bg0},
+        GruvllamaBg1 = {fg = colours.bg1},
+        GruvllamaBg2 = {fg = colours.bg2},
+        GruvllamaBg3 = {fg = colours.bg3},
+        GruvllamaBg4 = {fg = colours.bg4},
+        GruvllamaRed = {fg = colours.red},
+        GruvllamaRedBold = {fg = colours.red, bold = config.bold},
+        GruvllamaGreen = {fg = colours.green},
+        GruvllamaGreenBold = {fg = colours.green, bold = config.bold},
+        GruvllamaYellow = {fg = colours.yellow},
+        GruvllamaYellowBold = {fg = colours.yellow, bold = config.bold},
+        GruvllamaBlue = {fg = colours.blue},
+        GruvllamaBlueBold = {fg = colours.blue, bold = config.bold},
+        GruvllamaPurple = {fg = colours.purple},
+        GruvllamaPurpleBold = {fg = colours.purple, bold = config.bold},
+        GruvllamaAqua = {fg = colours.aqua},
+        GruvllamaAquaBold = {fg = colours.aqua, bold = config.bold},
+        GruvllamaOrange = {fg = colours.orange},
+        GruvllamaOrangeBold = {fg = colours.orange, bold = config.bold},
         GruvllamaRedSign = config.transparent_mode and
-            {fg = colors.red, reverse = config.invert_signs} or
-            {fg = colors.red, bg = colors.bg1, reverse = config.invert_signs},
+            {fg = colours.red, reverse = config.invert_signs} or
+            {fg = colours.red, bg = colours.bg1, reverse = config.invert_signs},
         GruvllamaGreenSign = config.transparent_mode and
-            {fg = colors.green, reverse = config.invert_signs} or
-            {fg = colors.green, bg = colors.bg1, reverse = config.invert_signs},
+            {fg = colours.green, reverse = config.invert_signs} or
+            {
+                fg = colours.green,
+                bg = colours.bg1,
+                reverse = config.invert_signs
+            },
         GruvllamaYellowSign = config.transparent_mode and
-            {fg = colors.yellow, reverse = config.invert_signs} or
-            {fg = colors.yellow, bg = colors.bg1, reverse = config.invert_signs},
+            {fg = colours.yellow, reverse = config.invert_signs} or
+            {
+                fg = colours.yellow,
+                bg = colours.bg1,
+                reverse = config.invert_signs
+            },
         GruvllamaBlueSign = config.transparent_mode and
-            {fg = colors.blue, reverse = config.invert_signs} or
-            {fg = colors.blue, bg = colors.bg1, reverse = config.invert_signs},
+            {fg = colours.blue, reverse = config.invert_signs} or
+            {fg = colours.blue, bg = colours.bg1, reverse = config.invert_signs},
         GruvllamaPurpleSign = config.transparent_mode and
-            {fg = colors.purple, reverse = config.invert_signs} or
-            {fg = colors.purple, bg = colors.bg1, reverse = config.invert_signs},
+            {fg = colours.purple, reverse = config.invert_signs} or
+            {
+                fg = colours.purple,
+                bg = colours.bg1,
+                reverse = config.invert_signs
+            },
         GruvllamaAquaSign = config.transparent_mode and
-            {fg = colors.aqua, reverse = config.invert_signs} or
-            {fg = colors.aqua, bg = colors.bg1, reverse = config.invert_signs},
+            {fg = colours.aqua, reverse = config.invert_signs} or
+            {fg = colours.aqua, bg = colours.bg1, reverse = config.invert_signs},
         GruvllamaOrangeSign = config.transparent_mode and
-            {fg = colors.orange, reverse = config.invert_signs} or
-            {fg = colors.orange, bg = colors.bg1, reverse = config.invert_signs},
-        GruvllamaRedUnderline = {undercurl = config.undercurl, sp = colors.red},
+            {fg = colours.orange, reverse = config.invert_signs} or
+            {
+                fg = colours.orange,
+                bg = colours.bg1,
+                reverse = config.invert_signs
+            },
+        GruvllamaRedUnderline = {undercurl = config.undercurl, sp = colours.red},
         GruvllamaGreenUnderline = {
             undercurl = config.undercurl,
-            sp = colors.green
+            sp = colours.green
         },
         GruvllamaYellowUnderline = {
             undercurl = config.undercurl,
-            sp = colors.yellow
+            sp = colours.yellow
         },
         GruvllamaBlueUnderline = {
             undercurl = config.undercurl,
-            sp = colors.blue
+            sp = colours.blue
         },
         GruvllamaPurpleUnderline = {
             undercurl = config.undercurl,
-            sp = colors.purple
+            sp = colours.purple
         },
         GruvllamaAquaUnderline = {
             undercurl = config.undercurl,
-            sp = colors.aqua
+            sp = colours.aqua
         },
         GruvllamaOrangeUnderline = {
             undercurl = config.undercurl,
-            sp = colors.orange
+            sp = colours.orange
         },
-        Normal = config.transparent_mode and {fg = colors.fg1, bg = nil} or
-            {fg = colors.fg1, bg = colors.bg0},
-        NormalFloat = config.transparent_mode and {fg = colors.fg1, bg = nil} or
-            {fg = colors.fg1, bg = colors.bg1},
-        NormalNC = config.dim_inactive and {fg = colors.fg0, bg = colors.bg1} or
+        Normal = config.transparent_mode and {fg = colours.fg1, bg = nil} or
+            {fg = colours.fg1, bg = colours.bg0},
+        NormalFloat = config.transparent_mode and {fg = colours.fg1, bg = nil} or
+            {fg = colours.fg1, bg = colours.bg1},
+        NormalNC = config.dim_inactive and {fg = colours.fg0, bg = colours.bg1} or
             {link = "Normal"},
-        CursorLine = {bg = colors.bg1},
+        CursorLine = {bg = colours.bg1},
         CursorColumn = {link = "CursorLine"},
         TabLineFill = {
-            fg = colors.bg4,
-            bg = colors.bg1,
+            fg = colours.bg4,
+            bg = colours.bg1,
             reverse = config.invert_tabline
         },
         TabLineSel = {
-            fg = colors.green,
-            bg = colors.bg1,
+            fg = colours.green,
+            bg = colours.bg1,
             reverse = config.invert_tabline
         },
         TabLine = {link = "TabLineFill"},
-        MatchParen = {bg = colors.bg3, bold = config.bold},
-        ColorColumn = {bg = colors.bg1},
-        Conceal = {fg = colors.blue},
-        CursorLineNr = {fg = colors.yellow, bg = colors.bg1},
+        MatchParen = {bg = colours.bg3, bold = config.bold},
+        ColorColumn = {bg = colours.bg1},
+        Conceal = {fg = colours.blue},
+        CursorLineNr = {fg = colours.yellow, bg = colours.bg1},
         NonText = {link = "GruvllamaBg2"},
         SpecialKey = {link = "GruvllamaFg4"},
-        Visual = {bg = colors.bg3, reverse = config.invert_selection},
+        Visual = {bg = colours.bg3, reverse = config.invert_selection},
         VisualNOS = {link = "Visual"},
-        Search = {fg = colors.yellow, bg = colors.bg0, reverse = config.inverse},
+        Search = {
+            fg = colours.yellow,
+            bg = colours.bg0,
+            reverse = config.inverse
+        },
         IncSearch = {
-            fg = colors.orange,
-            bg = colors.bg0,
+            fg = colours.orange,
+            bg = colours.bg0,
             reverse = config.inverse
         },
         CurSearch = {link = "IncSearch"},
-        QuickFixLine = {fg = colors.bg0, bg = colors.yellow, bold = config.bold},
-        Underlined = {fg = colors.blue, underline = config.underline},
+        QuickFixLine = {
+            fg = colours.bg0,
+            bg = colours.yellow,
+            bold = config.bold
+        },
+        Underlined = {fg = colours.blue, underline = config.underline},
         StatusLine = {
-            fg = colors.bg2,
-            bg = colors.fg1,
+            fg = colours.bg2,
+            bg = colours.fg1,
             reverse = config.inverse
         },
         StatusLineNC = {
-            fg = colors.bg1,
-            bg = colors.fg4,
+            fg = colours.bg1,
+            bg = colours.fg4,
             reverse = config.inverse
         },
-        WinBar = {fg = colors.fg4, bg = colors.bg0},
-        WinBarNC = {fg = colors.fg3, bg = colors.bg1},
-        WinSeparator = config.transparent_mode and {fg = colors.bg3, bg = nil} or
-            {fg = colors.bg3, bg = colors.bg0},
-        WildMenu = {fg = colors.blue, bg = colors.bg2, bold = config.bold},
+        WinBar = {fg = colours.fg4, bg = colours.bg0},
+        WinBarNC = {fg = colours.fg3, bg = colours.bg1},
+        WinSeparator = config.transparent_mode and {fg = colours.bg3, bg = nil} or
+            {fg = colours.bg3, bg = colours.bg0},
+        WildMenu = {fg = colours.blue, bg = colours.bg2, bold = config.bold},
         Directory = {link = "GruvllamaBlueBold"},
         Title = {link = "GruvllamaGreenBold"},
-        ErrorMsg = {fg = colors.bg0, bg = colors.red, bold = config.bold},
+        ErrorMsg = {fg = colours.bg0, bg = colours.red, bold = config.bold},
         MoreMsg = {link = "GruvllamaYellowBold"},
         ModeMsg = {link = "GruvllamaYellowBold"},
         Question = {link = "GruvllamaOrangeBold"},
         WarningMsg = {link = "GruvllamaRedBold"},
-        LineNr = {fg = colors.bg4},
-        SignColumn = config.transparent_mode and {bg = nil} or {bg = colors.bg1},
+        LineNr = {fg = colours.bg4},
+        SignColumn = config.transparent_mode and {bg = nil} or
+            {bg = colours.bg1},
         Folded = {
-            fg = colors.gray,
-            bg = colors.bg1,
+            fg = colours.gray,
+            bg = colours.bg1,
             italic = config.italic.folds
         },
-        FoldColumn = config.transparent_mode and {fg = colors.gray, bg = nil} or
-            {fg = colors.gray, bg = colors.bg1},
+        FoldColumn = config.transparent_mode and {fg = colours.gray, bg = nil} or
+            {fg = colours.gray, bg = colours.bg1},
         Cursor = {reverse = config.inverse},
         vCursor = {link = "Cursor"},
         iCursor = {link = "Cursor"},
         lCursor = {link = "Cursor"},
         Special = {link = "GruvllamaOrange"},
-        Comment = {fg = colors.gray, italic = config.italic.comments},
+        Comment = {fg = colours.gray, italic = config.italic.comments},
         Todo = {
-            fg = colors.bg0,
-            bg = colors.yellow,
+            fg = colours.bg0,
+            bg = colours.yellow,
             bold = config.bold,
             italic = config.italic.comments
         },
         Done = {
-            fg = colors.orange,
+            fg = colours.orange,
             bold = config.bold,
             italic = config.italic.comments
         },
-        Error = {fg = colors.red, bold = config.bold, reverse = config.inverse},
+        Error = {fg = colours.red, bold = config.bold, reverse = config.inverse},
         Statement = {link = "GruvllamaRed"},
         Conditional = {link = "GruvllamaRed"},
         Repeat = {link = "GruvllamaRed"},
         Label = {link = "GruvllamaRed"},
         Exception = {link = "GruvllamaRed"},
-        Operator = {fg = colors.orange, italic = config.italic.operators},
+        Operator = {fg = colours.orange, italic = config.italic.operators},
         Keyword = {link = "GruvllamaRed"},
         Identifier = {link = "GruvllamaBlue"},
         Function = {link = "GruvllamaGreenBold"},
@@ -398,7 +423,7 @@ local function get_groups()
         PreCondit = {link = "GruvllamaAqua"},
         Constant = {link = "GruvllamaPurple"},
         Character = {link = "GruvllamaPurple"},
-        String = {fg = colors.green, italic = config.italic.strings},
+        String = {fg = colours.green, italic = config.italic.strings},
         Boolean = {link = "GruvllamaPurple"},
         Number = {link = "GruvllamaPurple"},
         Float = {link = "GruvllamaPurple"},
@@ -406,19 +431,19 @@ local function get_groups()
         StorageClass = {link = "GruvllamaOrange"},
         Structure = {link = "GruvllamaAqua"},
         Typedef = {link = "GruvllamaYellow"},
-        Pmenu = {fg = colors.fg1, bg = colors.bg2},
-        PmenuSel = {fg = colors.bg2, bg = colors.blue, bold = config.bold},
-        PmenuSbar = {bg = colors.bg2},
-        PmenuThumb = {bg = colors.bg4},
-        DiffDelete = {bg = colors.dark_red},
-        DiffAdd = {bg = colors.dark_green},
-        DiffChange = {bg = colors.dark_aqua},
-        DiffText = {bg = colors.yellow, fg = colors.bg0},
+        Pmenu = {fg = colours.fg1, bg = colours.bg2},
+        PmenuSel = {fg = colours.bg2, bg = colours.blue, bold = config.bold},
+        PmenuSbar = {bg = colours.bg2},
+        PmenuThumb = {bg = colours.bg4},
+        DiffDelete = {bg = colours.dark_red},
+        DiffAdd = {bg = colours.dark_green},
+        DiffChange = {bg = colours.dark_aqua},
+        DiffText = {bg = colours.yellow, fg = colours.bg0},
         SpellCap = {link = "GruvllamaBlueUnderline"},
         SpellBad = {link = "GruvllamaRedUnderline"},
         SpellLocal = {link = "GruvllamaAquaUnderline"},
         SpellRare = {link = "GruvllamaPurpleUnderline"},
-        Whitespace = {fg = colors.bg2},
+        Whitespace = {fg = colours.bg2},
         DiagnosticError = {link = "GruvllamaRed"},
         DiagnosticSignError = {link = "GruvllamaRedSign"},
         DiagnosticUnderlineError = {link = "GruvllamaRedUnderline"},
@@ -450,27 +475,27 @@ local function get_groups()
         GitSignsAdd = {link = "GruvllamaGreen"},
         GitSignsChange = {link = "GruvllamaAqua"},
         GitSignsDelete = {link = "GruvllamaRed"},
-        NvimTreeSymlink = {fg = colors.neutral_aqua},
-        NvimTreeRootFolder = {fg = colors.neutral_purple, bold = true},
-        NvimTreeFolderIcon = {fg = colors.neutral_blue, bold = true},
-        NvimTreeFileIcon = {fg = colors.light2},
-        NvimTreeExecFile = {fg = colors.neutral_green, bold = true},
-        NvimTreeOpenedFile = {fg = colors.bright_red, bold = true},
+        NvimTreeSymlink = {fg = colours.neutral_aqua},
+        NvimTreeRootFolder = {fg = colours.neutral_purple, bold = true},
+        NvimTreeFolderIcon = {fg = colours.neutral_blue, bold = true},
+        NvimTreeFileIcon = {fg = colours.light2},
+        NvimTreeExecFile = {fg = colours.neutral_green, bold = true},
+        NvimTreeOpenedFile = {fg = colours.bright_red, bold = true},
         NvimTreeSpecialFile = {
-            fg = colors.neutral_yellow,
+            fg = colours.neutral_yellow,
             bold = true,
             underline = true
         },
-        NvimTreeImageFile = {fg = colors.neutral_purple},
-        NvimTreeIndentMarker = {fg = colors.dark3},
-        NvimTreeGitDirty = {fg = colors.neutral_yellow},
-        NvimTreeGitStaged = {fg = colors.neutral_yellow},
-        NvimTreeGitMerge = {fg = colors.neutral_purple},
-        NvimTreeGitRenamed = {fg = colors.neutral_purple},
-        NvimTreeGitNew = {fg = colors.neutral_yellow},
-        NvimTreeGitDeleted = {fg = colors.neutral_red},
-        NvimTreeWindowPicker = {bg = colors.aqua},
-        debugPC = {bg = colors.blue},
+        NvimTreeImageFile = {fg = colours.neutral_purple},
+        NvimTreeIndentMarker = {fg = colours.dark3},
+        NvimTreeGitDirty = {fg = colours.neutral_yellow},
+        NvimTreeGitStaged = {fg = colours.neutral_yellow},
+        NvimTreeGitMerge = {fg = colours.neutral_purple},
+        NvimTreeGitRenamed = {fg = colours.neutral_purple},
+        NvimTreeGitNew = {fg = colours.neutral_yellow},
+        NvimTreeGitDeleted = {fg = colours.neutral_red},
+        NvimTreeWindowPicker = {bg = colours.aqua},
+        debugPC = {bg = colours.blue},
         debugBreakpoint = {link = "GruvllamaRedSign"},
         StartifyBracket = {link = "GruvllamaFg3"},
         StartifyFile = {link = "GruvllamaFg1"},
@@ -608,40 +633,40 @@ local function get_groups()
         htmlArg = {link = "GruvllamaOrange"},
         htmlTagN = {link = "GruvllamaFg1"},
         htmlSpecialTagName = {link = "GruvllamaBlue"},
-        htmlLink = {fg = colors.fg4, underline = config.underline},
+        htmlLink = {fg = colours.fg4, underline = config.underline},
         htmlSpecialChar = {link = "GruvllamaRed"},
-        htmlBold = {fg = colors.fg0, bg = colors.bg0, bold = config.bold},
+        htmlBold = {fg = colours.fg0, bg = colours.bg0, bold = config.bold},
         htmlBoldUnderline = {
-            fg = colors.fg0,
-            bg = colors.bg0,
+            fg = colours.fg0,
+            bg = colours.bg0,
             bold = config.bold,
             underline = config.underline
         },
         htmlBoldItalic = {
-            fg = colors.fg0,
-            bg = colors.bg0,
+            fg = colours.fg0,
+            bg = colours.bg0,
             bold = config.bold,
             italic = true
         },
         htmlBoldUnderlineItalic = {
-            fg = colors.fg0,
-            bg = colors.bg0,
+            fg = colours.fg0,
+            bg = colours.bg0,
             bold = config.bold,
             italic = true,
             underline = config.underline
         },
         htmlUnderline = {
-            fg = colors.fg0,
-            bg = colors.bg0,
+            fg = colours.fg0,
+            bg = colours.bg0,
             underline = config.underline
         },
         htmlUnderlineItalic = {
-            fg = colors.fg0,
-            bg = colors.bg0,
+            fg = colours.fg0,
+            bg = colours.bg0,
             italic = true,
             underline = config.underline
         },
-        htmlItalic = {fg = colors.fg0, bg = colors.bg0, italic = true},
+        htmlItalic = {fg = colours.fg0, bg = colours.bg0, italic = true},
         xmlTag = {link = "GruvllamaAquaBold"},
         xmlEndTag = {link = "GruvllamaAquaBold"},
         xmlTagName = {link = "GruvllamaBlue"},
@@ -671,7 +696,7 @@ local function get_groups()
         clojureException = {link = "GruvllamaRed"},
         clojureRegexp = {link = "GruvllamaAqua"},
         clojureRegexpEscape = {link = "GruvllamaAqua"},
-        clojureRegexpCharClass = {fg = colors.fg3, bold = config.bold},
+        clojureRegexpCharClass = {fg = colours.fg3, bold = config.bold},
         clojureRegexpMod = {link = "clojureRegexpCharClass"},
         clojureRegexpQuantifier = {link = "clojureRegexpCharClass"},
         clojureParen = {link = "GruvllamaFg3"},
@@ -821,10 +846,10 @@ local function get_groups()
         scalaTypeTypePostDeclaration = {link = "GruvllamaYellow"},
         scalaInstanceDeclaration = {link = "GruvllamaFg1"},
         scalaInterpolation = {link = "GruvllamaAqua"},
-        markdownItalic = {fg = colors.fg3, italic = true},
-        markdownBold = {fg = colors.fg3, bold = config.bold},
+        markdownItalic = {fg = colours.fg3, italic = true},
+        markdownBold = {fg = colours.fg3, bold = config.bold},
         markdownBoldItalic = {
-            fg = colors.fg3,
+            fg = colours.fg3,
             bold = config.bold,
             italic = true
         },
@@ -848,7 +873,7 @@ local function get_groups()
         markdownHeadingDelimiter = {link = "GruvllamaOrange"},
         markdownUrl = {link = "GruvllamaPurple"},
         markdownUrlTitleDelimiter = {link = "GruvllamaGreen"},
-        markdownLinkText = {fg = colors.gray, underline = config.underline},
+        markdownLinkText = {fg = colours.gray, underline = config.underline},
         markdownIdDeclaration = {link = "markdownLinkText"},
         haskellType = {link = "GruvllamaBlue"},
         haskellIdentifier = {link = "GruvllamaAqua"},
@@ -919,10 +944,10 @@ local function get_groups()
         ocamlConstructor = {link = "GruvllamaOrange"},
         LspSagaCodeActionTitle = {link = "Title"},
         LspSagaCodeActionBorder = {link = "GruvllamaFg1"},
-        LspSagaCodeActionContent = {fg = colors.green, bold = config.bold},
+        LspSagaCodeActionContent = {fg = colours.green, bold = config.bold},
         LspSagaLspFinderBorder = {link = "GruvllamaFg1"},
         LspSagaAutoPreview = {link = "GruvllamaOrange"},
-        TargetWord = {fg = colors.blue, bold = config.bold},
+        TargetWord = {fg = colours.blue, bold = config.bold},
         FinderSeparator = {link = "GruvllamaAqua"},
         LspSagaDefPreviewBorder = {link = "GruvllamaBlue"},
         LspSagaHoverBorder = {link = "GruvllamaOrange"},
@@ -935,26 +960,26 @@ local function get_groups()
         DashboardShortCut = {link = "GruvllamaOrange"},
         DashboardHeader = {link = "GruvllamaAqua"},
         DashboardCenter = {link = "GruvllamaYellow"},
-        DashboardFooter = {fg = colors.purple, italic = true},
+        DashboardFooter = {fg = colours.purple, italic = true},
         MasonHighlight = {link = "GruvllamaAqua"},
-        MasonHighlightBlock = {fg = colors.bg0, bg = colors.blue},
+        MasonHighlightBlock = {fg = colours.bg0, bg = colours.blue},
         MasonHighlightBlockBold = {
-            fg = colors.bg0,
-            bg = colors.blue,
+            fg = colours.bg0,
+            bg = colours.blue,
             bold = true
         },
-        MasonHighlightSecondary = {fg = colors.yellow},
-        MasonHighlightBlockSecondary = {fg = colors.bg0, bg = colors.yellow},
+        MasonHighlightSecondary = {fg = colours.yellow},
+        MasonHighlightBlockSecondary = {fg = colours.bg0, bg = colours.yellow},
         MasonHighlightBlockBoldSecondary = {
-            fg = colors.bg0,
-            bg = colors.yellow,
+            fg = colours.bg0,
+            bg = colours.yellow,
             bold = true
         },
         MasonHeader = {link = "MasonHighlightBlockBoldSecondary"},
         MasonHeaderSecondary = {link = "MasonHighlightBlockBold"},
-        MasonMuted = {fg = colors.fg4},
-        MasonMutedBlock = {fg = colors.bg0, bg = colors.fg4},
-        MasonMutedBlockBold = {fg = colors.bg0, bg = colors.fg4, bold = true},
+        MasonMuted = {fg = colours.fg4},
+        MasonMutedBlock = {fg = colours.bg0, bg = colours.fg4},
+        MasonMutedBlockBold = {fg = colours.bg0, bg = colours.fg4, bold = true},
         LspInlayHint = {link = "comment"},
         CarbonFile = {link = "GruvllamaFg1"},
         CarbonExe = {link = "GruvllamaYellow"},
@@ -982,15 +1007,15 @@ local function get_groups()
         IlluminatedWordText = {link = "LspReferenceText"},
         IlluminatedWordRead = {link = "LspReferenceRead"},
         IlluminatedWordWrite = {link = "LspReferenceWrite"},
-        TSRainbowRed = {fg = colors.red},
-        TSRainbowOrange = {fg = colors.orange},
-        TSRainbowYellow = {fg = colors.yellow},
-        TSRainbowGreen = {fg = colors.green},
-        TSRainbowBlue = {fg = colors.blue},
-        TSRainbowViolet = {fg = colors.purple},
-        TSRainbowCyan = {fg = colors.cyan},
-        DapBreakpointSymbol = {fg = colors.red, bg = colors.bg1},
-        DapStoppedSymbol = {fg = colors.green, bg = colors.bg1},
+        TSRainbowRed = {fg = colours.red},
+        TSRainbowOrange = {fg = colours.orange},
+        TSRainbowYellow = {fg = colours.yellow},
+        TSRainbowGreen = {fg = colours.green},
+        TSRainbowBlue = {fg = colours.blue},
+        TSRainbowViolet = {fg = colours.purple},
+        TSRainbowCyan = {fg = colours.cyan},
+        DapBreakpointSymbol = {fg = colours.red, bg = colours.bg1},
+        DapStoppedSymbol = {fg = colours.green, bg = colours.bg1},
         DapUIBreakpointsCurrentLine = {link = "GruvllamaYellow"},
         DapUIBreakpointsDisabledLine = {link = "GruvllamaGray"},
         DapUIBreakpointsInfo = {link = "GruvllamaAqua"},
@@ -1002,15 +1027,15 @@ local function get_groups()
         DapUIFloatBorder = {link = "GruvllamaAqua"},
         DapUILineNumber = {link = "GruvllamaYellow"},
         DapUIModifiedValue = {link = "GruvllamaRed"},
-        DapUIPlayPause = {fg = colors.green, bg = colors.bg1},
-        DapUIRestart = {fg = colors.green, bg = colors.bg1},
+        DapUIPlayPause = {fg = colours.green, bg = colours.bg1},
+        DapUIRestart = {fg = colours.green, bg = colours.bg1},
         DapUIScope = {link = "GruvllamaBlue"},
         DapUISource = {link = "GruvllamaFg1"},
-        DapUIStepBack = {fg = colors.blue, bg = colors.bg1},
-        DapUIStepInto = {fg = colors.blue, bg = colors.bg1},
-        DapUIStepOut = {fg = colors.blue, bg = colors.bg1},
-        DapUIStepOver = {fg = colors.blue, bg = colors.bg1},
-        DapUIStop = {fg = colors.red, bg = colors.bg1},
+        DapUIStepBack = {fg = colours.blue, bg = colours.bg1},
+        DapUIStepInto = {fg = colours.blue, bg = colours.bg1},
+        DapUIStepOut = {fg = colours.blue, bg = colours.bg1},
+        DapUIStepOver = {fg = colours.blue, bg = colours.bg1},
+        DapUIStop = {fg = colours.red, bg = colours.bg1},
         DapUIStoppedThread = {link = "GruvllamaBlue"},
         DapUIThread = {link = "GruvllamaBlue"},
         DapUIType = {link = "GruvllamaOrange"},
@@ -1090,12 +1115,12 @@ local function get_groups()
         ["@text.reference"] = {link = "Constant"},
         ["@text.todo"] = {link = "Todo"},
         ["@text.note"] = {link = "SpecialComment"},
-        ["@text.note.comment"] = {fg = colors.purple, bold = config.bold},
+        ["@text.note.comment"] = {fg = colours.purple, bold = config.bold},
         ["@text.warning"] = {link = "WarningMsg"},
         ["@text.danger"] = {link = "ErrorMsg"},
         ["@text.danger.comment"] = {
-            fg = colors.fg0,
-            bg = colors.red,
+            fg = colours.fg0,
+            bg = colours.red,
             bold = config.bold
         },
         ["@text.diff.add"] = {link = "diffAdded"},
@@ -1145,11 +1170,11 @@ end
 --- main load function
 Gruvllama.load = function()
     if vim.version().minor < 8 then
-        vim.notify_once("gruvllama.nvim: you must use neovim 0.8 or higher")
+        vim.notify_once("gruvllama.nvim: you must use neovim 0.9 or higher")
         return
     end
 
-    -- reset colors
+    -- reset colours
     if vim.g.colors_name then vim.cmd.hi("clear") end
     vim.g.colors_name = "gruvllama"
     vim.o.termguicolors = true

@@ -36,14 +36,14 @@ Inside `init.vim`
 
 ```vim
 set background=dark " or light if you want light mode
-colorscheme gruvllama
+colourscheme gruvllama
 ```
 
 Inside `init.lua`
 
 ```lua
 vim.o.background = "dark" -- or "light" for light mode
-vim.cmd([[colorscheme gruvllama]])
+vim.cmd([[colourscheme gruvllama]])
 ```
 
 # Configuration
@@ -53,7 +53,7 @@ Additional settings for gruvllama are:
 ```lua
 -- Default options:
 require("gruvllama").setup({
-  terminal_colors = true, -- add neovim terminal colors
+  terminal_colours = true, -- add neovim terminal colors
   undercurl = true,
   underline = true,
   bold = true,
@@ -76,16 +76,16 @@ require("gruvllama").setup({
   dim_inactive = false,
   transparent_mode = false,
 })
-vim.cmd("colorscheme gruvllama")
+vim.cmd("colourscheme gruvllama")
 ```
 
-**VERY IMPORTANT**: Make sure to call setup() **BEFORE** calling the colorscheme command, to use your custom configs
+**VERY IMPORTANT**: Make sure to call setup() **BEFORE** calling the colourscheme command, to use your custom configs
 
 ## Overriding
 
 ### Palette
 
-You can specify your own palette colors. For example:
+You can specify your own palette colours. For example:
 
 ```lua
 require("gruvllama").setup({
@@ -93,12 +93,12 @@ require("gruvllama").setup({
         bright_green = "#990000",
     }
 })
-vim.cmd("colorscheme gruvllama")
+vim.cmd("colourscheme gruvllama")
 ```
 
 ### Highlight groups
 
-If you don't enjoy the current color for a specific highlight group, now you can just override it in the setup. For
+If you don't enjoy the current colour for a specific highlight group, now you can just override it in the setup. For
 example:
 
 ```lua
@@ -107,7 +107,7 @@ require("gruvllama").setup({
         SignColumn = {bg = "#ff9900"}
     }
 })
-vim.cmd("colorscheme gruvllama")
+vim.cmd("colourscheme gruvllama")
 ```
 
 It also works with treesitter groups and lsp semantic highlight tokens
@@ -119,5 +119,5 @@ require("gruvllama").setup({
         ["@comment.lua"] = { bg = "#000000" },
     }
 })
-vim.cmd("colorscheme gruvllama")
+vim.cmd("colourscheme gruvllama")
 ```
